@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { useInterval } from "react-use";
 import createPersistedState from "use-persisted-state";
 const useAmnesiaNote = createPersistedState("amnesiaNote");
-const useAmnesiaTime = createPersistedState("amnesiaTime");
 import { useState } from "react";
 import dayjs from "dayjs";
 import Head from "next/head";
@@ -32,7 +31,7 @@ const NoteInput = styled.textarea<{ endingSoon?: boolean }>`
 export default function Note() {
   const [note, setNote] = useAmnesiaNote("");
   const [time, setTime] = useState(dayjs().toString());
-  const [amnesiaTime, setAmnesiaTime] = useAmnesiaTime(
+  const [amnesiaTime, setAmnesiaTime] = useState(
     dayjs().endOf("day").toString()
   );
 
