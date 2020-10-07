@@ -51,11 +51,17 @@ export default function Note() {
       <Button onClick={() => setNote("")}>Remove forever</Button>
       <br />
       <b>
-        <code>current time: {time}</code>
+        <code>time: {dayjs(time).format("dddd hh:mm:ss")}</code>
       </b>
       <br />
       <b>
-        <code>Amnesia time: {amnesiaTime}</code>
+        <code>Amnesia time: {dayjs(amnesiaTime).format("dddd hh:mm:ss")}</code>
+        <br />
+        <code>
+          Deleting everything in{" "}
+          {dayjs(amnesiaTime).diff(dayjs(time), "second").toLocaleString()}{" "}
+          seconds
+        </code>
       </b>
       <code>
         <NoteInput
