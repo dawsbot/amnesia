@@ -9,42 +9,46 @@ import Head from "next/head";
 
 const Button = styled.button`
   padding: 10px 20px;
-  border-radius: 8px;
+  border-radius: 6px;
   border: 1px solid black;
   margin: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  :hover {
+    color: darkred;
+    border-color: red;
+  }
 `;
-const NoteInput = styled.textarea`
+const NoteInput = styled.textarea<{ endingSoon?: boolean }>`
   width: 90%;
-  height: 300px;
+  height: 100%;
   padding: 50px;
   border-radius: 10px;
+  margin: 20px;
+  box-sizing: border-box;
+  ${(props) => props.endingSoon && `border: 3px solid red; color: darkred;`}
 `;
 
 export default function Note() {
   const [note, setNote] = useAmnesiaNote("");
   const [time, setTime] = useState(dayjs().toString());
-  // next midnight
-  // const [amnesiaTime, setAmnesiaTime] = useLocalStorage(
-  //   "amnesiaTime",
-  //   new Date(date.setHours(24, 0, 0, 0)) as Date
-  // );
   const [amnesiaTime, setAmnesiaTime] = useAmnesiaTime(
-    dayjs().toString()
-    // new Date(date.setHours(24, 0, 0, 0)) as Date
+    dayjs().endOf("day").toString()
   );
 
   useInterval(() => {
     setTime(dayjs().toString());
-
     // amnesia time
     // not available on first mount
     if (amnesiaTime && dayjs(amnesiaTime).isBefore(dayjs())) {
       setNote("");
-      setAmnesiaTime(dayjs().add(24, "hour").toString());
-      // setAmnesiaTime(dayjs().add(20, "second").toString());
-      // ;new Date(new Date().setHours(24, 0, 0, 0)));
+      setAmnesiaTime(dayjs().endOf("day").toString());
     }
   }, 1000);
+
+  const resetAmnesiaTimer = () => {
+    setNote("");
+  };
 
   return (
     <>
@@ -56,7 +60,7 @@ export default function Note() {
         />
       </Head>
       <h1>Amnesia Notes</h1>
-      <Button onClick={() => setNote("")}>Remove forever</Button>
+      <Button onClick={resetAmnesiaTimer}>Remove forever</Button>
       <br />
       <b>
         <code>time: {dayjs(time).format("dddd hh:mm:ss")}</code>
@@ -74,6 +78,9 @@ export default function Note() {
       <code>
         <NoteInput
           value={note}
+          placeholder="type here. It will only last till midnight."
+          // with 10 minutes left, make the text box have a red border
+          endingSoon={dayjs(amnesiaTime).diff(dayjs(time), "second") < 600}
           onChange={(e) => {
             setNote(e.target.value);
           }}
