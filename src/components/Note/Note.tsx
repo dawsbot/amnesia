@@ -5,6 +5,7 @@ const useAmnesiaNote = createPersistedState("amnesiaNote");
 const useAmnesiaTime = createPersistedState("amnesiaTime");
 import { useState } from "react";
 import dayjs from "dayjs";
+import Head from "next/head";
 
 const Button = styled.button`
   padding: 10px 20px;
@@ -47,6 +48,13 @@ export default function Note() {
 
   return (
     <>
+      <Head>
+        <link
+          rel="icon"
+          type="image/png"
+          href="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/shocked-face-with-exploding-head_1f92f.png"
+        />
+      </Head>
       <h1>Amnesia Notes</h1>
       <Button onClick={() => setNote("")}>Remove forever</Button>
       <br />
