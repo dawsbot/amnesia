@@ -7,10 +7,10 @@ import dayjs from "dayjs";
 import Head from "next/head";
 
 const Button = styled.button`
-  padding: 10px 20px;
+  padding: 12px 20px;
   border-radius: 6px;
   border: 1px solid black;
-  margin: 10px;
+  margin: 10px 10px 10px 0px;
   cursor: pointer;
   font-weight: bold;
   :hover {
@@ -59,19 +59,13 @@ export default function Note() {
         />
       </Head>
       <h1>Amnesia Notes</h1>
-      <Button onClick={resetAmnesiaTimer}>Remove forever</Button>
-      <br />
+      <Button onClick={resetAmnesiaTimer}>Delete note now</Button>
       <b>
-        <code>time: {dayjs(time).format("dddd hh:mm:ss")}</code>
-      </b>
-      <br />
-      <b>
-        <code>Amnesia time: {dayjs(amnesiaTime).format("dddd hh:mm:ss")}</code>
         <br />
         <code>
-          Deleting everything in{" "}
+          Deleting everything at midnight (in {" "}
           {dayjs(amnesiaTime).diff(dayjs(time), "second").toLocaleString()}{" "}
-          seconds
+          seconds)
         </code>
       </b>
       <code>
