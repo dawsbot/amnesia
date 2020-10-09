@@ -7,7 +7,7 @@ import dayjs from "dayjs";
 import Head from "next/head";
 
 const Button = styled.button`
-  padding: 12px 20px;
+  padding: 8px 18px;
   border-radius: 6px;
   border: 1px solid black;
   margin: 10px 10px 10px 0px;
@@ -19,13 +19,19 @@ const Button = styled.button`
   }
 `;
 const NoteInput = styled.textarea<{ endingSoon?: boolean }>`
-  width: 90%;
-  height: 100%;
-  padding: 50px;
-  border-radius: 10px;
-  margin: 20px;
+  width: 100%;
+  height: 90vh;
+  padding: 15vh 10vw;
   box-sizing: border-box;
-  ${(props) => props.endingSoon && `border: 3px solid red; color: darkred;`}
+  font-size: 16px;
+`;
+
+const Footer = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
+  > * {
+    margin-left: 10px;
+  }
 `;
 
 export default function Note() {
@@ -58,16 +64,6 @@ export default function Note() {
           href="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/shocked-face-with-exploding-head_1f92f.png"
         />
       </Head>
-      <h1>Amnesia Notes</h1>
-      <Button onClick={resetAmnesiaTimer}>Delete note now</Button>
-      <b>
-        <br />
-        <code>
-          Deleting everything at midnight (in {" "}
-          {dayjs(amnesiaTime).diff(dayjs(time), "second").toLocaleString()}{" "}
-          seconds)
-        </code>
-      </b>
       <code>
         <NoteInput
           value={note}
@@ -79,6 +75,17 @@ export default function Note() {
           }}
         />
       </code>
+      <Footer>
+        <Button onClick={resetAmnesiaTimer}>Delete note now</Button>
+        <b>
+          <br />
+          <code>
+            Deleting everything at midnight (in{" "}
+            {dayjs(amnesiaTime).diff(dayjs(time), "second").toLocaleString()}{" "}
+            seconds)
+          </code>
+        </b>
+      </Footer>
     </>
   );
 }
