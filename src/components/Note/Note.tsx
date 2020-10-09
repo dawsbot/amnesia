@@ -4,7 +4,6 @@ import createPersistedState from "use-persisted-state";
 const useAmnesiaNote = createPersistedState("amnesiaNote");
 import { useState } from "react";
 import dayjs from "dayjs";
-import Head from "next/head";
 
 const Button = styled.button`
   padding: 8px 18px;
@@ -18,12 +17,16 @@ const Button = styled.button`
     border-color: red;
   }
 `;
+
 const NoteInput = styled.textarea<{ endingSoon?: boolean }>`
   width: 100%;
-  height: 90vh;
+  height: calc(100% - 110px);
   padding: 15vh 10vw;
   box-sizing: border-box;
   font-size: 16px;
+  border: 0px;
+  border-radius: 0px;
+  border-bottom: 1px solid grey;
 `;
 
 const Footer = styled.div`
@@ -57,33 +60,22 @@ export default function Note() {
 
   return (
     <>
-      <Head>
-        <link
-          rel="icon"
-          type="image/png"
-          href="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/shocked-face-with-exploding-head_1f92f.png"
-        />
-      </Head>
-      <code>
-        <NoteInput
-          value={note}
-          placeholder="type here. It will only last till midnight."
-          // with 10 minutes left, make the text box have a red border
-          endingSoon={dayjs(amnesiaTime).diff(dayjs(time), "second") < 600}
-          onChange={(e) => {
-            setNote(e.target.value);
-          }}
-        />
-      </code>
+      <NoteInput
+        value={note}
+        placeholder="type here. It will only last till midnight."
+        // with 10 minutes left, make the text box have a red border
+        endingSoon={dayjs(amnesiaTime).diff(dayjs(time), "second") < 600}
+        onChange={(e) => {
+          setNote(e.target.value);
+        }}
+      />
       <Footer>
-        <Button onClick={resetAmnesiaTimer}>Delete note now</Button>
+        <Button onClick={resetAmnesiaTimer}>Delete note now {"-->"}</Button>
         <b>
           <br />
-          <code>
-            Deleting everything at midnight (in{" "}
-            {dayjs(amnesiaTime).diff(dayjs(time), "second").toLocaleString()}{" "}
-            seconds)
-          </code>
+          Deleting everything at midnight (in{" "}
+          {dayjs(amnesiaTime).diff(dayjs(time), "second").toLocaleString()}{" "}
+          seconds)
         </b>
       </Footer>
     </>
