@@ -2,11 +2,18 @@ import styled from "styled-components";
 import { useInterval } from "react-use";
 import createPersistedState from "use-persisted-state";
 const useAmnesiaNote = createPersistedState("amnesiaNote");
+const useAmnesiaTime = createPersistedState("amnesiaTime");
 import { useState } from "react";
 import dayjs from "dayjs";
 
+const Container = styled.div`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+`;
+
 const Button = styled.button`
-  padding: 8px 18px;
+  padding: 10px 18px;
   border-radius: 6px;
   border: 1px solid black;
   margin: 10px 10px 10px 0px;
@@ -20,7 +27,7 @@ const Button = styled.button`
 
 const NoteInput = styled.textarea<{ endingSoon?: boolean }>`
   width: 100%;
-  height: calc(100% - 110px);
+  height: 100%;
   padding: 15vh 10vw;
   box-sizing: border-box;
   font-size: 16px;
@@ -30,17 +37,18 @@ const NoteInput = styled.textarea<{ endingSoon?: boolean }>`
 `;
 
 const Footer = styled.div`
+  padding: 10px;
   display: flex;
   flex-direction: row-reverse;
   > * {
-    margin-left: 10px;
+    margin-left: 20px;
   }
 `;
 
 export default function Note() {
   const [note, setNote] = useAmnesiaNote("");
   const [time, setTime] = useState(dayjs().toString());
-  const [amnesiaTime, setAmnesiaTime] = useState(
+  const [amnesiaTime, setAmnesiaTime] = useAmnesiaTime(
     dayjs().endOf("day").toString()
   );
 
@@ -59,7 +67,7 @@ export default function Note() {
   };
 
   return (
-    <>
+    <Container>
       <NoteInput
         value={note}
         placeholder="type here. It will only last till midnight."
@@ -78,6 +86,6 @@ export default function Note() {
           seconds)
         </b>
       </Footer>
-    </>
+    </Container>
   );
 }
